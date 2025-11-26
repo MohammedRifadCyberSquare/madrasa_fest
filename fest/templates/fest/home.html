@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h3>Hello</h3>
-</body>
-</html>
+{% extends "fest/master.html" %}
+{% load static %}
+ {% block content %}
+<h1>Madrasa Fest 2025</h1>
+
+<img
+  src="{% static 'images/banner.png' %}"
+  alt="Madrasa Fest Logo"
+  style="width: 80%; height: 580px"
+/>
+{% endblock %}

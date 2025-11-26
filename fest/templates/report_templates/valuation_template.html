@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <title>Valuation - {{ category }} - {{ item }}</title>
+  <style>
+ body {
+  font-family: Arial, sans-serif;
+ margin: 20px;
+ }
+
+ .logo {
+    width: 120px;
+    height: 100px;
+  }
+
+  .info {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 16px;
+  }
+
+  h1 {
+    margin: 5px 0;
+    color: #333;
+  }
+
+  /* Table container */
+  .table-container {
+    width: 100%;
+    margin-top: 20px;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%; 
+    max-width: 100%; 
+    border-collapse: collapse;
+    page-break-inside: auto;
+    }
+
+  th, td {
+    border: 1px solid #666;
+    padding: 6px;
+    text-align: center;
+    word-wrap: break-word;
+  }
+
+  th {
+    background-color: #f2f2f2;
+    font-size: 16px;
+    line-height: 1.2;
+  }
+
+  /* New Percentage-Based Column Widths for a 7-column layout */
+  
+  /* Column 1: Code Letter (10%) */
+  .td-code-letter {
+    width: 20%;
+    height: 20px; /* Keep height for spacing */
+  }
+  
+  /* Columns 2-6: Individual Marks (5 x 10% = 50%) */
+  .td-mark {
+    width: 20%;
+    height: 60px; /* Keep height for spacing */
+  }
+
+  /* Column 7: Marks out of 100 (Remaining 40%) */
+  .td-total-marks {
+    width: 40%;
+    height: 60px; /* Keep height for spacing */
+  }
+  
+  /* Removed: .td-code and .td-sign (replaced by above) */
+
+  /* Footer */
+  .footer {
+    width: 100%;
+    font-size: 14px;
+    margin-top: 20px;
+    display: table;
+    table-layout: fixed;
+  }
+
+  .footer-left {
+    text-align: left;
+    width: 50%;
+    display: table-cell;
+  }
+
+  .footer-center {
+    text-align: center;
+    display: table-cell;
+  }
+
+  /* Extra empty rows */
+  .spacer td {
+    height: 40px;
+    background-color: #fff;
+  }
+
+  th.participant {
+    font-size: 15px;
+  }
+</style>
+ 
+
+</head>
+
+<body>
+
+<div class="header">
+  <img src="{{ logo_path }}" alt="Logo" class="logo">
+  <h4>Madrasa Fest 2025</h4>
+</div>
+
+<div class="info">
+  <h1>Valuation Sheet</h1>
+  <p><strong>Category:</strong> {{ category|title }}</p>
+  <p><strong>Item:</strong> {{ item|title }}</p>
+</div>
+
+<div style="display: flex; justify-content: end; margin-bottom: 10px;">
+  <p><strong>Stage:</strong></p>
+</div>
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        
+        <th>Code Letter</th>
+        
+        <th colspan="5">Marks</th>
+         
+        <th class="participant">Marks <br/>out of 100</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in participants %}
+      <tr>
+        
+        <td class="td-code-letter"></td>
+         
+        <td class="td-mark"></td>
+        <td class="td-mark"></td>
+        <td class="td-mark"></td>
+        <td class="td-mark"></td>
+        <td class="td-mark"></td>
+         
+        <td class="td-total-marks"></td>
+      </tr>
+      {% endfor %}
+
+      {% for _ in extra_rows %}
+      <tr class="spacer">
+        <td class="td-code-letter"></td>
+        <td class="td-mark"></td>
+        <td class="td-mark"></td>
+        <td class="td-mark"></td>
+        <td class="td-mark"></td>
+        <td class="td-mark"></td>
+        <td class="td-total-marks"></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  <div class="footer-left">
+    <p>Judge's Name and Signature _____________</p>
+    <br>
+    <p>Judging Comments:</p>
+  </div>
+</div>
+
+</body>
+</html>

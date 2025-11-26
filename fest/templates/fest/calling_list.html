@@ -1,0 +1,162 @@
+{% extends "fest/master.html" %}
+{% load static %}
+{% block content %}
+
+
+<div id="wrapper">
+
+
+    <section id="add_items" class="wrapper style1 fade-up">
+        <div class="inner">
+            <h2 style="color:gold" class="mb-2">Calling List</h2>
+
+            <div class=" style1 ">
+                <section class="my-25">
+
+                    <div class="fields">
+                        <div class="field half">
+                            <label for="name">Category</label>
+                            <select name="category" class="my-1" id="category">
+                                <option value="">Select Category-</option>
+
+                                {% for category_name, events in categories.items %}
+                                <option value="{{ category_name }}">{{ category_name }}</option>
+                                {% endfor %}
+
+                            </select>
+                        </div>
+                        <div class="field half">
+                            <label for="email">Item</label>
+                            <select name="items" class="my-1" id="items">
+                                <option value="">Select Items-</option>
+                            </select>
+                        </div>
+
+
+
+
+
+
+
+
+                    </div>
+                    <ul class="actions mt-3">
+                        <li><button type="button" name="call_list" class="button submit bg-primary"
+                                id="callListBtn">Call
+                                List</button></li>
+
+                        <li><button type="button" name="green_room" class="button submit bg-success" id="greenRoomBtn">Green
+                                Room Sign</button></li>
+                        <li><button type="button" class="button submit bg-danger" name="valuation" id="evaluationBtn">Valuation
+                                Form</button></li>
+
+                    </ul>
+
+                </section>
+
+            </div>
+
+        </div>
+
+</div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $('#category').on('change', function () {
+        let selectedCategory = $(this).val();
+
+        if (selectedCategory === "") {
+            $('#items').html('<option value="">Select Event</option>');
+            return;
+        }
+
+        $.ajax({
+            url: "{% url 'get_events' %}",
+            data: {
+                'category': selectedCategory
+            },
+            success: function (data) {
+                $('#items').empty();
+                $('#items').append('<option value="">Select Event</option>');
+
+                data.events.forEach(function (event) {
+                    $('#items').append('<option value="' + event + '">' + event + '</option>');
+                });
+            }
+        });
+    });
+
+
+</script>
+<!-- Modal -->
+<div class="modal fade" id="pdfModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ category }} - {{ item }} Calling List</h5>
+            </div>
+
+            <div class="modal-body">
+                <iframe id="pdfFrame" width="100%" height="600px"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function generatePDF(reportType) {
+        let category = $('#category').val();
+        let item = $('#items').val();
+        console.log(category, item, reportType);
+        if (!category || !item) {
+            alert("Please select category and item");
+            return;
+        }
+
+        $.ajax({
+            url: "{% url 'generate_calling_list' %}",
+            type: "POST",
+            data: {
+                category: category,
+                item: item,
+                report_type: reportType,
+
+            },
+            success: function (res) {
+                if (res.status === "success") {
+                    console.log(res.pdf_url, '***********');
+                    let encodedUrl = encodeURI(res.pdf_url);
+                    $('#pdfFrame').attr('src', encodedUrl);;
+
+                    $('#pdfModal .modal-title').text(`${category} - ${item} ${reportType.replace('_', ' ').toUpperCase()}`);
+                    const modal = new bootstrap.Modal(document.getElementById('pdfModal'));
+                    modal.show();
+                } else {
+                    alert(res.message);
+                }
+            }
+        });
+    }
+
+    // Bind buttons
+    $('#callListBtn').on('click', function (e) {
+        e.preventDefault();
+        generatePDF('calling_list');
+    });
+
+    $('#greenRoomBtn').on('click', function (e) {
+        e.preventDefault();
+        generatePDF('green_room');
+    });
+
+    $('#evaluationBtn').on('click', function (e) {
+        e.preventDefault();
+        generatePDF('evaluation');
+    });
+</script>
+
+
+
+{% endblock %}

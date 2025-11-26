@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,11 +41,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'fest'
 ]
-
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
+if os.environ.get('RENDER'):            # Running on Render (production)
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+else:        
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'                           # Running locally (development)
+    STATICFILES_DIRS = [BASE_DIR / 'static']  # Your local static folder
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -80,9 +87,12 @@ WSGI_APPLICATION = 'madrasa_fest.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "m_db",
+        "USER": "postgres",
+        "PASSWORD": "cspro123!",
+        "HOST": "43.205.195.234",
     }
 }
 
@@ -123,6 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

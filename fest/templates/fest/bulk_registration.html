@@ -1,0 +1,62 @@
+ 
+        {% extends "fest/master.html" %}
+{% load static %}
+ {% block content %}
+        <section id="add_items" class="wrapper style1 fade-up">
+            <div class="inner">
+                <h2 style="color:gold" class="mb-4">Add Participants</h2>
+
+                <p class="text-dark text-white">
+                    Please make sure the file is in .xlx format and contains the following columns:
+                <p class="text-white">
+                    *Student Name, *House Name, *Item, *DOB, *Father's Name, *Phone No
+                </p>
+
+                </p>
+                <div class="style1">
+                    <section class=" my-5">
+                        <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                            {% csrf_token %}
+                            
+
+                            <div class="field half">
+                                <label for="email">Upload File(.xlx)</label>
+                                <input type="file" style="height: 50px;" name="file" id="file" />
+                            </div>
+                </div>
+                <ul class="actions">
+                    <li><button type="submit" class="button submit bg-primary" id="uploadBtn">Register</button></li>
+                </ul>
+                </form>
+        </section>
+ 
+    <div id="loadingSpinner" style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+">
+        <div class="spinner-border text-light" role="status" style="width: 4rem; height: 4rem;">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <div id="itemToast" class="alert d-none" role="alert" style="
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        width: 300px;
+        text-align: center;
+    ">
+    </div>
+
+
+ {% endblock %}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Green Room Sign - {{ category }} - {{ item }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .logo {
+            width: 100px;
+            height: 80px;
+        }
+        .info {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        h1 {
+            margin: 5px 0;
+            color: #333;
+        }
+        .table-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            page-break-inside: auto;
+        }
+        th, td {
+            border: 1px solid #666;
+            padding: 4px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-size: 16px;
+        }
+        .td-code { width: 60px; }
+        .td-sign { width: 130px; }
+        .spacer td { height: 40px; background-color: #fff; border: 0; }
+        th.participant { font-size: 15px; }
+        .footer { width: 100%; font-size: 14px; margin-top: 20px; display: table; table-layout: fixed; }
+        .footer-left { text-align: left; width: 50%; display: table-cell; }
+        .footer-center { text-align: center; display: table-cell; }
+    </style>
+</head>
+<body>
+
+```
+<!-- Logo -->
+<div class="header">
+    <img src="{{ logo_path }}" alt="Logo" class="logo">
+    <h4>Madrasa Fest 2025</h4>
+</div>
+
+<!-- Info -->
+<div class="info">
+    <h1>Green Room Sign Sheet</h1>
+    <p><strong>Category:</strong> {{ category }}</p>
+    <p><strong>Item:</strong> {{ item }}</p>
+</div>
+
+<!-- Table -->
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Chest No</th>
+                <th>Participant Name</th>
+                <th class="participant">Code Letter</th>
+                <th class="participant">Participant Signature</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in participants %}
+            <tr>
+                <td>{{ p.chest_no }}</td>
+                <td>{{ p.student_name|upper }}</td>
+                <td class="td-code"></td>
+                <td class="td-sign"></td>
+            </tr>
+            {% endfor %}
+
+            {% for _ in extra_rows %}
+            <tr class="spacer">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="footer-left">
+        <p>Competition Start Time: _____________</p>
+        <p>Competition End Time: ______________</p>
+    </div>
+    <div class="footer-center">
+        <p>Stage Incharge Name & Signature: ______________</p>
+    </div>
+</div>
+```
+
+</body>
+</html>
