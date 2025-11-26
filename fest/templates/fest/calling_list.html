@@ -60,6 +60,12 @@
 
 </div>
 </section>
+<div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 9999; justify-content: center; align-items: center;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -106,6 +112,7 @@
 </div>
 
 <script>
+    
     function generatePDF(reportType) {
         let category = $('#category').val();
         let item = $('#items').val();
@@ -115,6 +122,9 @@
             return;
         }
 
+        // 1. Show Loading Spinner
+        $('#loadingOverlay').show(); 
+
         $.ajax({
             url: "{% url 'generate_calling_list' %}",
             type: "POST",
@@ -122,20 +132,29 @@
                 category: category,
                 item: item,
                 report_type: reportType,
-
             },
             success: function (res) {
+                // 2. Hide Loading Spinner on success
+                $('#loadingOverlay').hide();
+
                 if (res.status === "success") {
                     console.log(res.pdf_url, '***********');
                     let encodedUrl = encodeURI(res.pdf_url);
                     $('#pdfFrame').attr('src', encodedUrl);;
 
                     $('#pdfModal .modal-title').text(`${category} - ${item} ${reportType.replace('_', ' ').toUpperCase()}`);
+                    // Ensure you have the Bootstrap JS available for the Modal constructor
                     const modal = new bootstrap.Modal(document.getElementById('pdfModal'));
                     modal.show();
                 } else {
                     alert(res.message);
                 }
+            },
+            error: function (xhr, status, error) {
+                // 3. Hide Loading Spinner on error as well
+                $('#loadingOverlay').hide();
+                alert("An error occurred while generating the PDF. Please try again.");
+                console.error("AJAX Error: ", status, error);
             }
         });
     }

@@ -12,6 +12,33 @@
 	<noscript>
 		<link rel="stylesheet" href="{% static '/assets/css/noscript.css' %}" />
 	</noscript>
+
+
+	<style>
+    /* Basic CSS for a simple spinner */
+    #loadingOverlay {
+        display: flex; /* Makes the content (spinner) center */
+        /* Fallback for older browsers if 'display: flex' is not supported */
+    }
+    .spinner-border {
+        display: inline-block;
+        width: 3rem;
+        height: 3rem;
+        vertical-align: -0.125em;
+        border: 0.25em solid currentColor;
+        border-right-color: transparent;
+        border-radius: 50%;
+        -webkit-animation: .75s linear infinite spinner-border;
+        animation: .75s linear infinite spinner-border;
+    }
+    /* Simple animation (You may need to include the full Bootstrap CSS/JS for the 'spinner-border' class to work correctly) */
+    @-webkit-keyframes spinner-border {
+      to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+    }
+    @keyframes spinner-border {
+      to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+    }
+</style>
 </head>
 
 <body class="is-preload">
