@@ -112,6 +112,7 @@ def generate_calling_list(request):
     if request.method == "POST":
         category = request.POST.get("category")
         item = request.POST.get("item")
+        print(category, item, '===================')
         report_type = request.POST.get("report_type", "calling_list",)
 
         if report_type == "calling_list":
@@ -134,7 +135,10 @@ def generate_calling_list(request):
         filename = f"{report_type}_{category}_{item}.pdf"
         logo_path = os.path.join(
             settings.BASE_DIR, "static", "images", "logo1.jpg")
-
+        left = os.path.join(
+            settings.BASE_DIR, "static", "images", "left.png")
+        right = os.path.join(
+            settings.BASE_DIR, "static", "images", "right.png")
         pdf_path = render_pdf(
             template_path,
             {
@@ -143,6 +147,8 @@ def generate_calling_list(request):
                 "participants": participants,
                 "logo_path": logo_path,
                 "extra_rows": extra_rows,
+                "left": left,
+                "right": right
             },
             filename
         )

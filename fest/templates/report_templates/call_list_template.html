@@ -10,22 +10,42 @@
             margin: 20px;
         }
 
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-bottom: 10px;
+         .header-wrapper {
+            width: 100%;
+            margin-bottom: 5px;
+            position: relative;
+            height: 50px;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        /* Left Logo */
+        .header-logo-left {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 120px;
+            height: 70px;
+            object-fit: contain;
         }
 
-        .logo {
-            width: 100px;
-            height: 80px;
+        /* Center Heading */
+        .header-title-centered {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            width: 60%;
+            text-align: center;
+        }
+
+        .header-title-centered h2 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .header-title-centered p {
+            margin: 1px 0;
+            font-size: 15px;
         }
 
         h1 {
@@ -67,19 +87,21 @@
 </head>
 
 <body>
-    <div class="header">
-        <div class="header-left">
-            <img src="{{logo_path}}" alt="Logo" class="logo">
+    <div class="header-wrapper">
+
+        <img src="{{ left }}" class="header-logo-left">
+
+        <div class="header-title-centered">
+            <h2>Calling List</h2>
+            <p><strong>Category:</strong> {{ category|title }}</p>
+            <p><strong>Item:</strong> {{ item|title }}</p>
         </div>
+
     </div>
 
     
 
-    <div class="info">
-        <h1>Calling List</h1>
-        <p><strong>Category:</strong> {{ category }}</p>
-        <p><strong>Item:</strong> {{ item }}</p>
-    </div>
+  
 
     <div class="table-container">
         <table>

@@ -1,181 +1,197 @@
 <!DOCTYPE html>
-
 <html lang="en">
+
 <head>
- <meta charset="UTF-8">
- <title>Valuation - {{ category }} - {{ item }}</title>
-  <style>
- body {
-  font-family: Arial, sans-serif;
- margin: 20px;
- }
+    <meta charset="UTF-8">
+    <title>Valuation - {{ category }} - {{ item }}</title>
 
- .logo {
-    width: 120px;
-    height: 100px;
-  }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 5px;
+        }
 
-  .info {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 16px;
-  }
+        /* ============================
+           SIMPLE HEADER (Left Image + Center Title)
+           ============================ */
+        .header-wrapper {
+            width: 100%;
+            margin-bottom: 5px;
+            position: relative;
+            height: 50px;
+        }
 
-  h1 {
-    margin: 5px 0;
-    color: #333;
-  }
+        /* Left Logo */
+        .header-logo-left {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 120px;
+            height: 70px;
+            object-fit: contain;
+        }
 
-  /* Table container */
-  .table-container {
-    width: 100%;
-    margin-top: 20px;
-    overflow-x: auto;
-  }
+        /* Center Heading */
+        .header-title-centered {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            width: 60%;
+            text-align: center;
+        }
 
-  table {
-    width: 100%; 
-    max-width: 100%; 
-    border-collapse: collapse;
-    page-break-inside: auto;
-    }
+        .header-title-centered h2 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
 
-  th, td {
-    border: 1px solid #666;
-    padding: 6px;
-    text-align: center;
-    word-wrap: break-word;
-  }
+        .header-title-centered p {
+            margin: 1px 0;
+            font-size: 15px;
+        }
 
-  th {
-    background-color: #f2f2f2;
-    font-size: 16px;
-    line-height: 1.2;
-  }
+        /* ============================
+           TABLE & LAYOUT
+           ============================ */
+        .table-container {
+            width: 100%;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
 
-  /* New Percentage-Based Column Widths for a 7-column layout */
-  
-  /* Column 1: Code Letter (10%) */
-  .td-code-letter {
-    width: 20%;
-    height: 20px; /* Keep height for spacing */
-  }
-  
-  /* Columns 2-6: Individual Marks (5 x 10% = 50%) */
-  .td-mark {
-    width: 20%;
-    height: 60px; /* Keep height for spacing */
-  }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            page-break-inside: auto;
+        }
 
-  /* Column 7: Marks out of 100 (Remaining 40%) */
-  .td-total-marks {
-    width: 40%;
-    height: 60px; /* Keep height for spacing */
-  }
-  
-  /* Removed: .td-code and .td-sign (replaced by above) */
+        th, td {
+            border: 1px solid #666;
+            padding: 6px;
+            text-align: center;
+            word-wrap: break-word;
+        }
 
-  /* Footer */
-  .footer {
-    width: 100%;
-    font-size: 14px;
-    margin-top: 20px;
-    display: table;
-    table-layout: fixed;
-  }
+        th {
+            background-color: #f2f2f2;
+            font-size: 16px;
+        }
 
-  .footer-left {
-    text-align: left;
-    width: 50%;
-    display: table-cell;
-  }
+        /* Column widths */
+        .td-code-letter {
+            width: 20%;
+            height: 20px;
+        }
 
-  .footer-center {
-    text-align: center;
-    display: table-cell;
-  }
+        .td-mark {
+            width: 20%;
+            height: 20px;
+        }
 
-  /* Extra empty rows */
-  .spacer td {
-    height: 40px;
-    background-color: #fff;
-  }
+        .td-total-marks {
+            width: 40%;
+            height: 60px;
+        }
 
-  th.participant {
-    font-size: 15px;
-  }
-</style>
- 
+        .footer {
+            width: 100%;
+            font-size: 14px;
+            margin-top: 20px;
+            display: table;
+            table-layout: fixed;
+        }
 
+        .footer-left {
+            text-align: left;
+            width: 50%;
+            display: table-cell;
+        }
+
+        .spacer td {
+            height: 40px;
+            background-color: #fff;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="header">
-  <img src="{{ logo_path }}" alt="Logo" class="logo">
-  <h4>Madrasa Fest 2025</h4>
-</div>
+    <!-- ============================
+         HEADER (Left Image + Center Title)
+         ============================ -->
+    <div class="header-wrapper">
 
-<div class="info">
-  <h1>Valuation Sheet</h1>
-  <p><strong>Category:</strong> {{ category|title }}</p>
-  <p><strong>Item:</strong> {{ item|title }}</p>
-</div>
+        <img src="{{ left }}" class="header-logo-left">
 
-<div style="display: flex; justify-content: end; margin-bottom: 10px;">
-  <p><strong>Stage:</strong></p>
-</div>
+        <div class="header-title-centered">
+            <h2>Valuation Sheet</h2>
+            <p><strong>Category:</strong> {{ category|title }}</p>
+            <p><strong>Item:</strong> {{ item|title }}</p>
+        </div>
 
-<div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        
-        <th>Code Letter</th>
-        
-        <th colspan="5">Marks</th>
-         
-        <th class="participant">Marks <br/>out of 100</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for p in participants %}
-      <tr>
-        
-        <td class="td-code-letter"></td>
-         
-        <td class="td-mark"></td>
-        <td class="td-mark"></td>
-        <td class="td-mark"></td>
-        <td class="td-mark"></td>
-        <td class="td-mark"></td>
-         
-        <td class="td-total-marks"></td>
-      </tr>
-      {% endfor %}
+    </div>
 
-      {% for _ in extra_rows %}
-      <tr class="spacer">
-        <td class="td-code-letter"></td>
-        <td class="td-mark"></td>
-        <td class="td-mark"></td>
-        <td class="td-mark"></td>
-        <td class="td-mark"></td>
-        <td class="td-mark"></td>
-        <td class="td-total-marks"></td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+    <!-- Stage -->
+    <div style="display: flex; justify-content: end; margin-bottom: 10px;">
+        <p><strong>Stage:</strong></p>
+    </div>
 
-<div class="footer">
-  <div class="footer-left">
-    <p>Judge's Name and Signature _____________</p>
-    <br>
-    <p>Judging Comments:</p>
-  </div>
-</div>
+    <!-- TABLE -->
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Code Letter</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th class="participant">Total</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for p in participants %}
+                <tr>
+                    <td class="td-code-letter"></td>
+
+                    <td class="td-mark"></td>
+                    <td class="td-mark"></td>
+                    <td class="td-mark"></td>
+                    <td class="td-mark"></td>
+                    <td class="td-mark"></td>
+
+                    <td class="td-total-marks"></td>
+                </tr>
+                {% endfor %}
+
+                {% for _ in extra_rows %}
+                <tr class="spacer">
+                    <td class="td-code-letter"></td>
+                    <td class="td-mark"></td>
+                    <td class="td-mark"></td>
+                    <td class="td-mark"></td>
+                    <td class="td-mark"></td>
+                    <td class="td-mark"></td>
+                    <td class="td-total-marks"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="footer-left">
+            <p>Judge's Name and Signature _____________</p>
+            <br>
+            <p>Judging Comments:</p>
+        </div>
+    </div>
 
 </body>
+
 </html>
